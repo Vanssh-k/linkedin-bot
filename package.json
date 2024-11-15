@@ -4,8 +4,8 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "start": "tsx index.ts",
-    "dev": "nodemon --watch src --exec tsx index.ts"
+    "start": "tsx src/index.ts",
+    "dev": "nodemon --watch src --exec tsx src/index.ts"
   },
   "keywords": [],
   "author": "",

@@ -83,7 +83,6 @@ bot.command("createPost", async (ctx: any) => {
       const completion = await openai.chat.completions.create({
         model: model,
         messages: [
-          
           {
             role: "user",
             content: `Topic: ${topic}\n\nContext: ${context}\n\nThoughts/Findings: ${thoughts}`,
@@ -103,10 +102,7 @@ bot.command("createPost", async (ctx: any) => {
           // );
           // const accessToken = result.rows[0].access_token;
 
-          await postToLinkedIn(
-            "",
-            linkedinPost as string
-          );
+          await postToLinkedIn("", linkedinPost as string);
           ctx.reply("Successfully posted to LinkedIn");
         } else {
           ctx.reply("Post not published");
@@ -276,6 +272,10 @@ async function postReplyToLinkedIn(
 app.post("/linkedin", async (req, res) => {
   const { accessToken, content } = req.body;
   await postToLinkedIn(accessToken, content);
+  res.send({ message: "Successfully posted to LinkedIn" });
+});
+
+app.get("/check", (req, res) => {
   res.send({ message: "Successfully posted to LinkedIn" });
 });
 

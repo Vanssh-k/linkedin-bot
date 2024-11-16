@@ -115,6 +115,38 @@ bot.command("createPost", async (ctx: any) => {
   });
 });
 
+bot.command("correctGrammar", async (ctx: any) => {
+  ctx.reply(
+    "Please provide the sentence you want to correct and the desired tone in the following format:\nSentence: <your sentence>\nTone: <desired tone>"
+  );
+
+  bot.on("text", async (ctx: any) => {
+    const message = ctx.message.text;
+    const [sentence, tone] = message
+      .split("\n")
+      .map((line: string) => line.split(": ")[1]);
+
+    try {
+      const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+      const completion = await openai.chat.completions.create({
+        model: model,
+        messages: [
+          {
+            role: "user",
+            content: `Correct this sentence: "${sentence}" in a ${tone} tone.`,
+          },
+        ],
+      });
+
+      const correctedSentence = completion.choices[0].message.content;
+      ctx.reply(`Here is your corrected sentence:\n\n${correctedSentence}`);
+    } catch (error) {
+      console.error("Error:", error);
+      ctx.reply("An error occurred while correcting the sentence");
+    }
+  });
+});
+
 // bot.command("fetchComments", async (ctx: any) => {
 //   ctx.reply("Please provide the URL or ID of the LinkedIn post:");
 

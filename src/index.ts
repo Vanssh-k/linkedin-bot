@@ -25,47 +25,47 @@ bot.start((ctx: any) =>
   ctx.reply("Hey " + ctx.from.first_name + ", Cheered to have you here!")
 );
 
-bot.command("linkedinOauth", async (ctx: any) => {
-  const authUrl =
-    "https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=78gkle5txhe6u2&redirect_uri=http://localhost:3000&scope=openid+profile+w_member_social+email";
-  ctx.reply(`Please authenticate with LinkedIn using this link: ${authUrl}`);
-});
+// bot.command("linkedinOauth", async (ctx: any) => {
+//   const authUrl =
+//     "https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=78gkle5txhe6u2&redirect_uri=http://localhost:3000&scope=openid+profile+w_member_social+email";
+//   ctx.reply(`Please authenticate with LinkedIn using this link: ${authUrl}`);
+// });
 
-app.get("/", async (req, res) => {
-  const authorizationCode = req.query.code;
+// app.get("/", async (req, res) => {
+//   const authorizationCode = req.query.code;
 
-  try {
-    const response = await axios.post(
-      "https://www.linkedin.com/oauth/v2/accessToken",
-      null,
-      {
-        params: {
-          grant_type: "authorization_code",
-          code: authorizationCode,
-          client_id: "78gkle5txhe6u2",
-          client_secret: "WPL_AP1.zLN3tPVlNbWf0Ggs./L9n2g==",
-          redirect_uri: "http://localhost:3000",
-        },
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      }
-    );
+//   try {
+//     const response = await axios.post(
+//       "https://www.linkedin.com/oauth/v2/accessToken",
+//       null,
+//       {
+//         params: {
+//           grant_type: "authorization_code",
+//           code: authorizationCode,
+//           client_id: "78gkle5txhe6u2",
+//           client_secret: "WPL_AP1.zLN3tPVlNbWf0Ggs./L9n2g==",
+//           redirect_uri: "http://localhost:3000",
+//         },
+//         headers: {
+//           "Content-Type": "application/x-www-form-urlencoded",
+//         },
+//       }
+//     );
 
-    const accessToken = response.data.access_token;
+//     const accessToken = response.data.access_token;
 
-    console.log(accessToken);
+//     console.log(accessToken);
 
-    // await pool.query("INSERT INTO tokens (access_token) VALUES ($1)", [
-    //   accessToken,
-    // ]);
+//     // await pool.query("INSERT INTO tokens (access_token) VALUES ($1)", [
+//     //   accessToken,
+//     // ]);
 
-    res.send("Access token stored successfully");
-  } catch (error) {
-    console.error("Error:", error);
-    res.status(500).send("An error occurred");
-  }
-});
+//     res.send("Access token stored successfully");
+//   } catch (error) {
+//     console.error("Error:", error);
+//     res.status(500).send("An error occurred");
+//   }
+// });
 
 bot.command("createPost", async (ctx: any) => {
   ctx.reply(
@@ -309,6 +309,10 @@ app.post("/linkedin", async (req, res) => {
 
 app.get("/check", (req, res) => {
   res.send({ message: "Successfully posted to LinkedIn" });
+});
+
+app.get("/", (req, res) => {
+  res.send("<h1>Hello World</h1>");
 });
 
 app.listen(port, () => {

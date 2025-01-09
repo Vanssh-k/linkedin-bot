@@ -52,7 +52,7 @@ bot.start((ctx: any) => {
 });
 
 bot.command("linkedinOauth", async (ctx: any) => {
-  const redirectUri = `http://localhost:3000/auth/linkedin/callback?chat_id=${ctx.from.id}`;
+  const redirectUri = `${process.env.ORIGIN}/auth/linkedin/callback?chat_id=${ctx.from.id}`;
   const authUrl = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=775l3jdt962yih&redirect_uri=${redirectUri}&scope=openid+profile+w_member_social+email`;
   ctx.reply(`Please authenticate with LinkedIn using this link: ${authUrl}`);
 });
@@ -70,7 +70,7 @@ app.get("/auth/linkedin/callback", async (req, res) => {
           code: code,
           client_id: "775l3jdt962yih",
           client_secret: "ebF8MbIMdwSFqE7a",
-          redirect_uri: `http://localhost:3000/auth/linkedin/callback?chat_id=${chat_id}`,
+          redirect_uri: `${process.env.ORIGIN}/auth/linkedin/callback?chat_id=${chat_id}`,
         },
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
@@ -285,5 +285,5 @@ app.get("/check", (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+  console.log(`Server is running on ${port} PORT`);
 });
